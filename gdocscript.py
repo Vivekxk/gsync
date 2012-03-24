@@ -17,7 +17,7 @@ import gdata.sample_util
 def configdir(f):
     dir = os.path.dirname(f)
     if not os.path.exists(dir):
-        os.makedirs(os.path.join(f))
+        os.makedirs(os.path.join(os.path.expanduser('~'),f))
 
 #app data for client
 class AppConfig(object):
