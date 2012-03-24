@@ -69,15 +69,18 @@ def localsync(inclient,locals, foreign):
         initstr = str(x.title).split('>')
         resstr = initstr[1].split('<')
         title = resstr[0]
-        if title not in locals:
-            try:
-                inclient.download_resource(x, os.path.join(AppConfig.path, title))
-            except IOError:
-                print 'please rename %s for a successful sync'%title
-        elif foreign[title][1] > locals[title]:
-            try:
-                inclient.download_resource(x, os.path.join(AppConfig.path,title))
-            except IOError:
-                print 'please rename %s for a successful sync'%title
-         
+        try:
+            if title not in locals:
+                try:
+                    inclient.download_resource(x, os.path.join(AppConfig.path, title))
+                except IOError:
+                    print 'please rename %s for a successful sync'%title
+            elif foreign[title][1] > locals[title]:
+                try:
+                    os.remove(os.path.join(AppConfig.path, title))
+                    inclient.download_resource(x, os.path.join(AppConfig.path,title))
+                except IOError:
+                    print 'please rename %s for a successful sync'%title
+        except KeyError:
+            pass
     

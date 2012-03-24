@@ -4,6 +4,10 @@
 from dropbox import client, rest, session
 import webbrowser
 import sys
+import os
+
+#Debug option
+DEBUG = True 
 
 #App Credentials
 APP_KEY = 'gg4uctzehi3v156'
@@ -27,25 +31,22 @@ def hookItUp(sess):
     file.write(str(access_token))
     file.close()
 
-
-try:
-    file = open('access_token.dat', 'r')
-    accesstkn = file.readline()
-    client = client.DropboxClient(sess)
-except IOError as e:
-    print 'It seems like gsync has not been hooked up to Dropbox, please take a moment to hook it up!'
-    hookItUp(sess)
+client = client.DropboxClient(sess)
+print 'It seems like gsync has not been hooked up to Dropbox, please take a moment to hook it up!'
+hookItUp(sess)
     
-    file = open('access_token.dat', 'r')
-    accesstkn = file.readline()
+accntinfo = 'linked account:', client.account_info()
+print accntinfo
+    
+def sync(myclient=client):
+    mypath = os.path.join(os.path.expanduser('~'),'MyGoogleDocuments')
+    listing = os.listdir(mypath)
+    for infile in listing:
+        try:
+            f = open(os.path.join(mypath,infile))
+            dbresponse = myclient.put_file(infile, f)
+            if DEBUG == True:
+                print 'uploaded:', dbresponse
+        except ErrorResponse:
+            pass
 
-    client = client.DropboxClient(sess)
-except rest.ErrorResponse:
-    sys.exit(1)
-
-try:
-    accntinfo = 'linked account:', client.account_info()
-    print accntinfo
-except rest.ErrorResponse:
-    print 'account has already been linked'
-    sys.exit(1)
