@@ -51,7 +51,7 @@ def GListLastChanged(inclient):
     changes = inclient.GetChanges()
     changedgdocs = {}
     for change in changes.entry:
-        changedgdocs[change.title.text]= change.changestamp.value
+        changedgdocs[change.title.text]= change.get_id(), change.changestamp.value
     return changedgdocs    
 
 #Gets a list of each local doc and when it was last changed
@@ -62,3 +62,22 @@ def LListLastChanged():
         changedlocals[infile]= os.path.getmtime(os.path.join(AppConfig.path, infile))
     return changedlocals
 
+#downloads files if they either do not exist in the local path or if the timestamps are old
+def localsync(inclient,locals, foreign):
+    allsources = inclient.get_all_resources()
+    for x in allsources:
+        initstr = str(x.title).split('>')
+        resstr = initstr[1].split('<')
+        title = resstr[0]
+        if title not in locals:
+            try:
+                inclient.download_resource(x, os.path.join(AppConfig.path, title))
+            except IOError:
+                print 'please rename %s for a successful sync'%title
+        elif foreign[title][1] > locals[title]:
+            try:
+                inclient.download_resource(x, os.path.join(AppConfig.path,title))
+            except IOError:
+                print 'please rename %s for a successful sync'%title
+         
+    
