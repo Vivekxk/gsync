@@ -19,6 +19,6 @@ while True:
     mylocals = gdocscript.LListLastChanged()
     gdocscript.localsync(mydocsclient,mylocals, myforeign)
     dboxscript.sync()
-    sleep(180)
+    sleep(60)
 
 

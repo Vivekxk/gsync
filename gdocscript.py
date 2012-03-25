@@ -13,6 +13,9 @@ import gdata.docs.client
 import gdata.docs.data
 import gdata.sample_util
 
+#debug options
+DEBUG = True
+
 #ensure the directory exists and if not, creates it
 def configdir(f):
     dir = os.path.join(os.path.expanduser('~'),f)
@@ -73,14 +76,18 @@ def localsync(inclient,locals, foreign):
             if title not in locals:
                 try:
                     inclient.download_resource(x, os.path.join(AppConfig.path, title))
+                    if DEBUG == True:
+                        print 'updating file %s'%title
                 except IOError:
                     print 'please rename %s for a successful sync'%title
             elif foreign[title][1] > locals[title]:
                 try:
                     os.remove(os.path.join(AppConfig.path, title))
                     inclient.download_resource(x, os.path.join(AppConfig.path,title))
+                    if DEBUG == True:
+                        print 'updating file %s, %d > %d'%(title, float(foreign[title][1]), float(locals[title]))
                 except IOError:
                     print 'please rename %s for a successful sync'%title
         except KeyError:
             pass
-    
+        
