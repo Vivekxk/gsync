@@ -2,10 +2,15 @@ Author: Vivek Karuturi
 
 This was the product of my work during a 24hr hackathon hosted by Yahoo on Friday March 23rd, 2012.
 
-This script continuously syncs a user's Google Documents with a directory on their local computer as well as their Dropbox account.A local directory is automatically made if it is not found (ie. the first time the user fires up the script) and all the credentials for Google Accounts and Dropbox accounts are safely authenticated via my program. It is currently set to run at an interval of 60 seconds, but that can be changed.
+This script continuously syncs a user's Google Documents with a directory on their local computer 
+as well as their Dropbox account.A local directory is automatically made if it is not found (ie. the first time the user fires up the script) 
+and all the credentials for Google Accounts and Dropbox accounts are safely authenticated via my program. It is currently set 
+to run at an interval of 60 seconds, but that can be changed.
 
-I plan on extending the functionality of this in my free time and cleaning up the design/technical aspects of it so that I can package it up and distribute it for free! 
+I plan on extending the functionality of this in my free time and 
+cleaning up the design/technical aspects of it so that I can package it up and distribute it for free! 
 
-There are some things that need fixing like Dropbox file duplication, but I will be fixing all of those things soon, so be on the lookout!
+There are some things that need fixing like Dropbox file duplication, but I will be fixing all of those 
+things soon, so be on the lookout!
 
 Suggestions and comments are more than welcome, and you can send them over to Vivekxk@gmail.com
