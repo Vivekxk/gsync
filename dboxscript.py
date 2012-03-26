@@ -24,11 +24,16 @@ def hookItUp(sess):
     #user authentication and authorization
     request_token = sess.obtain_request_token()
     url = sess.build_authorize_url(request_token)
-    webbrowser.open(url)
+    try:
+        webbrowser.open(url)
+    except webbrowser.Error:
+        print '''Could not open the auth URL. Please check your internet
+                connection and restart the app!.'''
+        sys.exit(1)
     print 'Press Enter after you have allowed access'
     raw_input()
 
-    #writes the access token to a file
+    #writes the access token to a file for future automation functionality
     file = open('access_token.dat', 'w+')
     access_token = sess.obtain_access_token(request_token)
     file.write(str(access_token))
