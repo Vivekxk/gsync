@@ -7,12 +7,16 @@ import StringIO
 
 defaults = '''
 [sync]
-time=180
+interval=180
 
 '''
 
 conf = ConfigParser.SafeConfigParser()
-conf.readfp(StringIO.StringIO(defaults))
 
+def loadDefaults(defaultSett):
+    conf.readfp(StringIO.StringIO(defaultSett))
 
-
+def config_init(conf_file = 'gsync.conf'):
+    loadDefaults(defaults)
+    conf.read(conf_file)
+    

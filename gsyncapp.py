@@ -3,7 +3,7 @@
 
 import gdocscript
 import dboxscript
-from Config import conf as settings
+from Config import conf, config_init
 import os
 from time import sleep
 from dropbox import client, rest, session
@@ -15,7 +15,9 @@ os.system('python2.7 dboxscript.py')
 mydocsclient = gdocscript.CreateClient()
 
 #setup the config
-
+config_init()
+INTERVAL = conf.getint('sync','interval')
+print INTERVAL
 
 #executes the file downloads with an interval of 3min updates
 while True:
@@ -23,6 +25,6 @@ while True:
     mylocals = gdocscript.LListLastChanged()
     gdocscript.localsync(mydocsclient,mylocals, myforeign)
     dboxscript.sync()
-    sleep(settings.getint('sync','time'))
+    sleep(INTERVAL)
 
 
